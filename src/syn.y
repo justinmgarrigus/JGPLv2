@@ -1,5 +1,6 @@
 %{ 
-    #include <stdio.h> 
+    #include <iostream> 
+    #include "parse.h" 
 
     extern "C" {
         char* yytext;
@@ -9,6 +10,9 @@
         void yyerror(const char* s);
         int yywrap(); 
     }
+    
+    // Keeps track of the different parameters in a definition signature. 
+    std::vector<struct parameter> parameter_vector; 
 %}
 
 %union {
@@ -35,7 +39,14 @@ block_list:
   ; 
 
 block:
-    DEF param_list START statement_list END
+    DEF param_list START statement_list END {
+        std::cout << "definition: ";
+        for (parameter param : parameter_vector) {
+            std::cout << param << " "; 
+        }
+        std::cout << std::endl; 
+        parameter_vector.clear();
+    }
   | MAIN statement_list DONE
   ; 
 
@@ -45,10 +56,14 @@ param_list:
   ; 
   
 param: 
-    ALPHA 
-  | INTEGER
-  | SYMBOL 
-  | '(' ALPHA ':' ALPHA ')'
+    ALPHA   { parameter_vector.push_back(parameter($<str>1)); }
+  | INTEGER { parameter_vector.push_back(parameter($<str>1)); } 
+  | SYMBOL  { parameter_vector.push_back(parameter($<ch>1));  } 
+  | '(' ALPHA ':' ALPHA ')' { 
+        passed_value val($<str>2, $<str>4); 
+        parameter param(val);  
+        parameter_vector.push_back(param);
+    }
   ; 
 
 statement_list: 
@@ -74,9 +89,9 @@ item:
 %% 
 
 int main() {
-    printf("Begin parsing\n"); 
+    std::cout << "Begin parsing" << std::endl;
     int result = yyparse(); 
-    printf("End parsing\n"); 
+    std::cout << "End parsing" << std::endl; 
     return result; 
 }
 

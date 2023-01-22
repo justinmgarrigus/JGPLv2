@@ -16,7 +16,7 @@ int line_number; // Defined in syntax analyzer
 [();:]   { return *yytext; }
 
 [a-zA-Z]+ {
-    yylval.str = strdup(yytext); 
+    yylval.str = strdup(yytext);
     return ALPHA; 
 }
 
