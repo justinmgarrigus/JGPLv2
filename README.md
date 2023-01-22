@@ -37,3 +37,10 @@
     Where the bounds of (parameters) and (code) overlap. 
 4.) Replace triangle braces with parenthesis in parameter definitions.
     Parenthesis are the only reserved character. 
+    
+    
+=== Syntax analysis === 
+
+- A program consists of a collection of blocks. For simplicity sake, two blocks 
+  (mentioned before) are predefined, with others capable of being defined by 
+  the user: DEF [params] START [statements] END, and MAIN [statements] DONE.

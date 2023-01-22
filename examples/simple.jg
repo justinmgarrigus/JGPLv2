@@ -1,0 +1,13 @@
+DEF display (string: var)
+START 
+    ~PRINT var; 
+END 
+
+DEF (type: t) (identifier: id)
+START
+    ~INSERT id, t;
+END
+
+MAIN
+	display "Hello, world!"; 
+DONE
