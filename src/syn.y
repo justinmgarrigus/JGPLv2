@@ -1,12 +1,15 @@
 %{ 
     #include <stdio.h> 
 
-    int yylineno; 
-    char* yytext; 
-
-    int yylex();
-    void yyerror(const char* s);
-%} 
+    extern "C" {
+        char* yytext;
+        int line_number = 1;  
+    
+        int yylex();
+        void yyerror(const char* s);
+        int yywrap(); 
+    }
+%}
 
 %union {
     char *str; // ALPHA and INTEGER can span multiple characters. 
@@ -78,7 +81,7 @@ int main() {
 }
 
 void yyerror(const char* s) {
-    fprintf(stderr, "Error: %s at line %d\n", s, yylineno+1);
+    fprintf(stderr, "Error: %s at line %d\n", s, line_number);
     fprintf(stderr, "    %s\n", yytext); 
 }
 

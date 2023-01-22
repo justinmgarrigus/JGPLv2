@@ -1,7 +1,9 @@
 %{ 
 
 #include <string.h> 
-#include "y.tab.h"
+#include "y.tab.h" 
+
+int line_number; // Defined in syntax analyzer
 
 %} 
 %%
@@ -23,7 +25,7 @@
     return INTEGER;
 }
 
-\n { yylineno++; } // For debugging purposes
+\n { line_number++; } // For debugging purposes
 
 [ \t] ; // Whitespace is otherwise ignored 
 
