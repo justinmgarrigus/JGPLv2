@@ -1,10 +1,11 @@
 %{ 
     #include <stdio.h> 
 
-    int yylex();
-    void yyerror(const char* s);
     int yylineno; 
     char* yytext; 
+
+    int yylex();
+    void yyerror(const char* s);
 %} 
 
 %union {

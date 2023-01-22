@@ -1,10 +1,13 @@
+# Usage: 
+#   $ make
+#   $ cat examples/simple.jg | bin/parse
+#   $ make clean 
+
 all: 
-	yacc -d src/syn.y
-	lex src/lex.l 
-	gcc y.tab.c lex.yy.c 
+	mkdir -p bin 
+	yacc --defines=bin/y.tab.h -o bin/y.tab.c src/syn.y
+	lex -o bin/lex.yy.c src/lex.l
+	gcc bin/y.tab.c bin/lex.yy.c -o bin/parse
 
 clean: 
-	rm -f y.tab.c 
-	rm -f y.tab.h 
-	rm -f lex.yy.c 
-	rm -f a.out
+	rm -rf bin
